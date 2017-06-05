@@ -10,12 +10,13 @@ class Topping(models.Model):
     class Meta:
         ordering = ('name',)
 
+
 class Pizza(models.Model):
     name = models.CharField(max_length=30)
     toppings = models.ManyToManyField(Topping)
 
     def __str__(self):
-        return self.name
+        return '{} ({})'.format(self.name, ", ".join([topping.name for topping in self.toppings.all()]))
 
     class Meta:
         ordering = ('name',)
