@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.utils import timezone
 
 from django.db import models
@@ -57,13 +58,8 @@ class Club(models.Model):
             club_squad_query = TradeInfo.objects.filter(
                 club__id=self.id,
                 date_joined__lte=timezone.datetime(year, 1, 1),
-                date_leaved__gte=timezone.datetime(year, 12, 31)
-            ) | \
-                               TradeInfo.objects.filter(
-                                   club__id=self.id,
-                                   date_joined__lte=timezone.datetime(year, 1, 1),
-                                   date_leaved__isnull=True
-                               )
+
+            ).filter(Q(date_leaved__gte=timezone.datetime(year, 12, 31)) | Q(date_leaved__isnull=True))
             return [club_squad.player.name for club_squad in club_squad_query]
 
 
