@@ -14,6 +14,11 @@ class CommonInfo2(models.Model):
 
 class Student2(CommonInfo2):
     home_group = models.CharField(max_length=5)
+    extra_info = models.ForeignKey(
+        CommonInfo2,
+        related_name='extra_students',
+        null=True,
+    )
 
     def __str__(self):
         return 'HomeGroup {}\'s student({}, {})'.format(
